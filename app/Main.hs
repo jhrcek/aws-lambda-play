@@ -1,6 +1,15 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TemplateHaskell     #-}
+
 module Main where
 
-import Lib
+import Aws.Lambda
 
-main :: IO ()
-main = someFunc
+import qualified Lib
+
+-- This action is run on each cold start, and the context returned
+-- is kept alive while the lambda is run, you can access it in your handler.
+initializeContext :: IO ()
+initializeContext = return ()
+
+generateLambdaDispatcher StandaloneLambda defaultDispatcherOptions
